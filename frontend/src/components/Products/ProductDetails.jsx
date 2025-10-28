@@ -4,11 +4,12 @@ const selectedProduct = {
   id: 1,
   name: "Jacket Product",
   price: 19.99,
+  brand:"Sailor",
   originalPrice: 29.99,
   description: "This is a sample product description.",
   sizes: ["S", "M", "L", "XL"],
   material: "Cotton",
-  color: ["Red", "Blue", "Green"],
+  colors: ["Red", "Blue"],
   images: [
     {
       url: "https://picsum.photos/500/500?random=1",
@@ -67,10 +68,65 @@ const ProductDetails = () => {
                 `$${selectedProduct.originalPrice} `}
             </p>
             <p className="text-xl text-gray-500">${selectedProduct.price}</p>
-            <p className="mt-4 text-gray-600">{selectedProduct.description}</p>
-            <div className="mt-6">
+            <p className="mb-4 text-gray-600">{selectedProduct.description}</p>
+            <div className="mb-4">
               <p className="text-gray-700">Color:</p>
-              <div className=""></div>
+              <div className="flex gap-2 mt-2">
+                {selectedProduct.colors.map((color) => (
+                  <button
+                    key={color}
+                    className="w-8 h-8 rounded-full border"
+                    style={{
+                      backgroundColor: color.toLocaleLowerCase(),
+                      filter: "brightness(0.5)",
+                    }}
+                  ></button>
+                ))}
+              </div>
+            </div>
+            <div className="mb-4">
+              <p className="text-gray-700">Size:</p>
+              <div className="flex gap-2 mt-2">
+                {selectedProduct.sizes.map((size) => (
+                  <button
+                    key={size}
+                    className="px-4 py-2 border rounded hover:bg-gray-200"
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="mb-6">
+              <p className="text-gray-700">Quantity :</p>
+              <div className="flex items-center space-x-4 mt-2">
+                <button className="px-2 py-1 border rounded bg-gray-200">
+                  -
+                </button>
+                <span className="text-lg">1</span>
+                <button className="px-2 py-1 border rounded bg-gray-200">
+                  +
+                </button>
+              </div>
+            </div>
+            <button className="w-full bg-black text-white py-2 px-6 rounded-lg font-semibold hover:bg-gray-800 ">
+              Add to Cart
+            </button>
+            <div className=" mt-10 text-gray-700">
+              <h3 className="text-xl font-bold mb-4">Characteristics:</h3>
+              <table className="w-full text-left text-sm text-gray-600">
+                <tbody>
+                  <tr>
+                    <td className="py-2 ">Brand</td>
+                    <td className="py-2 ">{selectedProduct.brand}</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 ">Material</td>
+                    <td className="py-2 ">{selectedProduct.material}</td>
+                  </tr>
+                  {/* Add more characteristics as needed */}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
