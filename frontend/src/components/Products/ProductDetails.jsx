@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "sonner";
+import ProductGrid from "./ProductGrid";
 const selectedProduct = {
   id: 1,
   name: "Jacket Product",
@@ -22,6 +23,32 @@ const selectedProduct = {
     },
   ],
 };
+const similarProducts = [
+  {
+    _id: 1,
+    name: "Product 1",
+    price: 24.99,
+    images: [{url: "https://picsum.photos/300/300?random=3"}],
+  },
+  {
+    _id: 2,
+    name: "Product 2",
+    price: 24.99,
+    images: [{url: "https://picsum.photos/300/300?random=4"}],
+  },
+  {
+    _id: 3,
+    name: "Product 3",
+    price: 24.99,
+    images: [{url: "https://picsum.photos/300/300?random=5"}],
+  },
+  {
+    _id: 4,
+    name: "Product 4",
+    price: 24.99,
+    images: [{url: "https://picsum.photos/300/300?random=6"}],
+  },
+]
 const ProductDetails = () => {
   const [mainImage, setMainImage] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -36,26 +63,26 @@ const ProductDetails = () => {
   }, [selectedProduct]);
 
   const handleQuantityChange = (action) => {
-    if(action === "plus") setQuantity((prev) => prev + 1);
-    if(action === "minus" && quantity > 1) setQuantity((prev) => prev - 1);
+    if (action === "plus") setQuantity((prev) => prev + 1);
+    if (action === "minus" && quantity > 1) setQuantity((prev) => prev - 1);
   };
 
   const handleAddToCart = () => {
     // Add to cart logic here
-    if(!selectedSize || !selectedColor){
-      toast.error("Please select size and color before adding to cart.",{
+    if (!selectedSize || !selectedColor) {
+      toast.error("Please select size and color before adding to cart.", {
         duration: 1000,
       });
       return;
     }
     setIsButtonDisabled(true);
     setTimeout(() => {
-      toast.success("Product added to cart!",{
+      toast.success("Product added to cart!", {
         duration: 1000,
       });
       setIsButtonDisabled(false);
-    },500);
-  }
+    }, 500);
+  };
 
   return (
     <div className="p-6">
@@ -151,17 +178,31 @@ const ProductDetails = () => {
             <div className="mb-6">
               <p className="text-gray-700">Quantity :</p>
               <div className="flex items-center space-x-4 mt-2">
-                <button onClick={()=> handleQuantityChange("minus")} className="px-2 py-1 border rounded bg-gray-200">
+                <button
+                  onClick={() => handleQuantityChange("minus")}
+                  className="px-2 py-1 border rounded bg-gray-200"
+                >
                   -
                 </button>
                 <span className="text-lg">{quantity}</span>
-                <button onClick={()=> handleQuantityChange("plus")} className="px-2 py-1 border rounded bg-gray-200">
+                <button
+                  onClick={() => handleQuantityChange("plus")}
+                  className="px-2 py-1 border rounded bg-gray-200"
+                >
                   +
                 </button>
               </div>
             </div>
-            <button onClick={handleAddToCart} className="w-full bg-black text-white py-2 px-6 rounded-lg font-semibold hover:bg-gray-800 ">
-              Add to Cart
+            <button
+              onClick={handleAddToCart}
+              disabled={isButtonDisabled}
+              className={`w-full bg-black text-white py-2 px-6 rounded-lg font-semibold hover:bg-gray-800 ${
+                isButtonDisabled
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-gray-900"
+              }`}
+            >
+              {isButtonDisabled? "Adding..." :"Add to Cart"}
             </button>
             <div className=" mt-10 text-gray-700">
               <h3 className="text-xl font-bold mb-4">Characteristics:</h3>
@@ -180,6 +221,12 @@ const ProductDetails = () => {
               </table>
             </div>
           </div>
+        </div>
+        <div className="mt-20">
+          <h2 className="text-2xl text-center font-medium mb-4">
+            You May Also Like
+          </h2>
+          <ProductGrid products ={similarProducts}></ProductGrid>
         </div>
       </div>
     </div>
