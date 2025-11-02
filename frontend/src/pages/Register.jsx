@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import login from "../assets/login.webp";
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   return (
@@ -73,4 +73,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
