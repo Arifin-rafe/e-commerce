@@ -24,7 +24,7 @@ const NavBar = () => {
         {/* left-logo */}
         <div>
           <Link to="/" className="text-2xl font-medium">
-            VibeZz
+            Outfit
           </Link>
         </div>
         {/* center-navigation */}
