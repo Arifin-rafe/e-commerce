@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import MyOrderPage from "./MyOrderPage";
 
 const Profile = () => {
@@ -7,17 +8,20 @@ const Profile = () => {
         <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
           {/* left Section */}
           <div className="w-full md:w-1/3 lg:w-1/4 shadow-lg rounded-lg p-6">
-            <h1 className="text-2xl md:text-3xl font-bold mb-4">John doe</h1>
+            <h1 className="text-2xl md:text-3xl font-bold mb-4">
+              Md Minhazul Arifin
+            </h1>
             <p className="text-lg text-gray-600 mb-4">
-              Email: johndoe@example.com
+              Email: arafinrafe90@gmail
             </p>
             <button className="w-full bg-red-500 text-white py-2 rounded hover:bg-red-600">
               Logout
             </button>
           </div>
-            {/* right Section order table */}
-            <div className="w-full md:w-2/3 lg:w-3/4">
-            <MyOrderPage/></div>
+          {/* right Section order table */}
+          <div className="w-full md:w-2/3 lg:w-3/4">
+            <MyOrderPage />
+          </div>
         </div>
       </div>
     </div>
