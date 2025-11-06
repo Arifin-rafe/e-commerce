@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import MyOrderPage from "./MyOrderPage";
 
 const Profile = () => {
