@@ -64,7 +64,28 @@ const FilterSidebar = () => {
 
   const handleFilterChange = (e) => {
     const { name, value,checked,type } = e.target;
-    console.log({name,value,checked,type});
+    // console.log({name,value,checked,type});
+    let newFilters = { ...filters };
+    if (type === "checkbox") {
+      if (checked) {
+        newFilters[name] = [...newFilters[name] || [], value];
+      } else {
+        newFilters[name] = newFilters[name].filter((item) => item !== value);
+      }
+    } else {
+      newFilters[name] = value;
+    }
+    setFilters(newFilters);
+    console.log(newFilters)
+    // setSearchParams(newFilters);
+  };
+  const updateURLParams = (newFilters) => {
+    const params = new URLSearchParams();
+    Object.keys(newFilters).forEach((key) => {
+      if(Array.isArray(newFilters[key])){
+        
+      }
+    })
   };
   return (
     <div className="p-4">
@@ -117,7 +138,7 @@ const FilterSidebar = () => {
               key={color}
               name="color"
               value={color}
-              onChange={handleFilterChange}
+              onClick={handleFilterChange}
               className="w-8 h-8 rounded-full border border-gray-300 
               cursor-pointer transition hover:scale-105"
               style={{ backgroundColor: color.toLowerCase() }}
