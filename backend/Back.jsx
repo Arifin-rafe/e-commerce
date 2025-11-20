@@ -2,7 +2,7 @@ import React from 'react'
 
 const Back = () => {
   return (
-    <div>Back</div>
+    <div>Backend will be here</div>
   )
 }
 
