@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 const MyOrderPage = () => {
   const [orders, setOrders] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     // Fetch user's orders from API or state management
     setTimeout(() => {
@@ -42,6 +43,9 @@ const MyOrderPage = () => {
       setOrders(mockOrders);
     }, 1000);
   }, []);
+  const handleRowClick = (orderId) => {
+    navigate(`/order/${orderId}`);
+  }
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
       <h2 className="text-3xl sm:text-2xl font-bold mb-6">My Orders</h2>
@@ -63,6 +67,7 @@ const MyOrderPage = () => {
               orders.map((order) => (
                 <tr
                   key={order._id}
+                  onClick={() => handleRowClick(order._id)}
                   className="border-b hover:bg-gray-50 cursor-pointer"
                 >
                   <td className="py-2 px-2 sm:py-4">

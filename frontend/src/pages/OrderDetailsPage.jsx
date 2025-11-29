@@ -29,7 +29,7 @@ const OrderDetailsPage = () => {
         },
         {
           productId: "2",
-          name: "shirt",
+          name: "Shirt",
           color: "black",
           size: "M",
           price: 150,
@@ -136,6 +136,12 @@ const OrderDetailsPage = () => {
             </table>
           </div>
           {/* back to orders link */}
+          <Link
+            to="/my-orders"
+            className="text-blue-500 hover:underline"
+          >
+            Back to My Orders
+          </Link>
         </div>
       )}
     </div>
