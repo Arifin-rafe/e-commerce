@@ -16,26 +16,32 @@ import AdminHomePage from "./pages/AdminHomePage";
 
 const App = () => {
   return (
-    <BrowserRouter future={{ v7_startTransition: true , v7_relativeSplatPath: true  }}>
+    <BrowserRouter
+      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+    >
       <Toaster position="top-right"></Toaster>
       <Routes>
         <Route path="/" element={<UserLayout />}>
           <Route index element={<Home />} />
-          <Route path="login" element={<Login />}/>
-          <Route path="register" element={<Register />}/>
-          <Route path="profile" element={<Profile />}/>
-          <Route path="collections/:collection" element={<CollectionPage />}/>
-          <Route path="product/:id" element={<ProductDetails/>}/>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="collections/:collection" element={<CollectionPage />} />
+          <Route path="product/:id" element={<ProductDetails />} />
           <Route path="checkout" element={<CheckOut />} />
-          <Route path="order-confirmation" element={<OrderConfirmationPage />} />
+          <Route
+            path="order-confirmation"
+            element={<OrderConfirmationPage />}
+          />
           <Route path="order/:id" element={<OrderDetailsPage />} />
           <Route path="my-orders" element={<MyOrderPage />} />
         </Route>
-        
+
         {/*admin routes*/}
-        <Route path="/admin" element = {<AdminLayout />}>{/*admin layout*/}
+        <Route path="/admin" element={<AdminLayout />}>
+          {/*admin layout*/}
           <Route index element={<AdminHomePage />} />
-          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
