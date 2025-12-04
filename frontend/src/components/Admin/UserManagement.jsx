@@ -8,7 +8,8 @@ const UserManagement = () => {
     name: "",
     email: "",
     password: "",
-    role: "User",
+    role: "customer", // Default role
+    
   });
   return <div>UserManagement</div>;
 };
