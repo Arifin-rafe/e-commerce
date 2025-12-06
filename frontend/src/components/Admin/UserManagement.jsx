@@ -2,16 +2,148 @@ import React, { useState } from "react";
 
 const UserManagement = () => {
   const users = [
-    {name: "Alice", email: "alice@example.com", role: "Admin" },
+    {
+      _id: "123213",
+      name: "Alice",
+      email: "alice@example.com",
+      role: "admin",
+    },
   ];
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     role: "customer", // Default role
-    
   });
-  return <div>UserManagement</div>;
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+    // reset the form after submission
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      role: "customer",
+    });
+  };
+  const handleRoleChange = (userId, newRole) => {
+    console.log(`Change role for user ${userId} to ${newRole}`);
+    // Implement role change logic here
+  };
+  const handleDeleteUser = (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      // Proceed with deletion
+      console.log(`Delete user ${userId}`);
+    } else {
+      // User canceled the deletion
+    }
+    // Implement user deletion logic here
+  };
+  return (
+    <div className="max-w-7xl p-6 mx-auto">
+      <h1 className="text-2xl font-bold mb-6">User Management</h1>
+      {/* Add new user form*/}
+      <div className="p-6 rounded-lg mb-6">
+        <h3 className="text-lg font-bold mb-4">Add New User</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700">Name</label>
+            <input
+              type="text"
+              name="name"
+              className="w-full p-2 border rounded"
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Email</label>
+            <input
+              type="email"
+              name="email"
+              className="w-full p-2 border rounded"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Password</label>
+            <input
+              type="password"
+              name="password"
+              className="w-full p-2 border rounded"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Role</label>
+            <select
+              type=""
+              name="role"
+              className="w-full p-2 border rounded"
+              value={formData.role}
+              onChange={handleChange}
+            >
+              <option value="customer">Customer</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <button
+            type="submit"
+            className="bg-green-500 py-2 px-4 text-white rounded hover:bg-green-600 cursor-pointer"
+          >
+            Add User
+          </button>
+        </form>
+      </div>
+      {/* User list table management */}
+      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="min-w-full text-left text-gray-500">
+          <thead className="bg-gray-100 text-xs uppercase text-gray-700">
+            <tr>
+              <th className="px-4 py-3">Name</th>
+              <th className="px-4 py-3">Email</th>
+              <th className="px-4 py-3">Role</th>
+              <th className="px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id} className="bg-white border-b hover:bg-gray-50">
+                <td className="p-4 font-medium whitespace-nowrap">
+                  {user.name}
+                </td>
+                <td className="p-4">{user.email}</td>
+                <td className="p-4">
+                  <select
+                    value={user.role}
+                    onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                    className="p-2 border rounded"
+                  >
+                    <option value="customer">Customer</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </td>
+                <td className="p-4">
+                  <button
+                    onClick={(e) => handleDeleteUser(user._id)}
+                    className="bg-red-500 py-2 px-4 text-white rounded hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default UserManagement;
