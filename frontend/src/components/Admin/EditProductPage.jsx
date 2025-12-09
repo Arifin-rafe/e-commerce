@@ -16,10 +16,10 @@ const EditProductPage = () => {
     sku: "",
     images: [
       {
-        url: "https://picsum.photos.150?random=1",
+        url: "https://picsum.photos/150?random=1",
       },
       {
-        url: "https://picsum.photos.150?random=2",
+        url: "https://picsum.photos/150?random=2",
       },
     ],
   });
@@ -31,11 +31,19 @@ const EditProductPage = () => {
       [name]: value,
     }));
   };
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    console.log(file)
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(productData);
+  };
   return (
     <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
       {/* Implement Edit Product Form Here */}
       <h2 className="text-3xl font-bold mb-6">Edit Product</h2>
-      <form action="">
+      <form action="" onSubmit={handleSubmit}>
         {/* name */}
         <div className="mb-6">
           <label className="block mb-2 font-semibold">Product Name</label>
@@ -54,6 +62,7 @@ const EditProductPage = () => {
           <textarea
             name="description"
             value={productData.description}
+            onChange={handleChange}
             className="w-full border border-gray-300 rounded-md p-2"
             rows={4}
             required
@@ -96,7 +105,7 @@ const EditProductPage = () => {
         </div>
         {/*sizes*/}
         <div className="mb-6">
-          <label className="block mb-2 font-semibold">Sizes(comma separated)</label>
+          <label className="block mb-2 font-semibold">Sizes(comma-separated)</label>
           <input
             type="text"
             name="sizes"
@@ -128,27 +137,30 @@ const EditProductPage = () => {
         </div>
         {/*images*/}
         <div className="mb-6">
-          <label className="block mb-2 font-semibold">Image URLs (comma-separated)</label>
+          <label className="block mb-2 font-semibold">Upload Image</label>
           <input
-            type="text"
-            name="images"
-            value={productData.images.map((image) => image.url).join(", ")}
-            onChange={(e) =>
-              setProductData({
-                ...productData,
-                images: e.target.value.split(",").map((url) => ({ url: url.trim() })),
-              })
-            }
-            className="w-full border border-gray-300 p-2 rounded-md"
+            type="file"
+            onChange={handleImageUpload}
+            // className="w-full border border-gray-300 p-2 rounded-md"
           />
+          <div className="flex gap-4 mt-4">
+            {productData.images.map((image, index) => (
+              <div key={index}>
+                <img
+                  src={image.url}
+                  alt={image.altText || "Product Image"}
+                  className="w-20 h-20 object-cover rounded-md shadow-md"
+                />
+              </div>
+            ))}
+          </div>
         </div>
-
-        {/* <button
+        <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors"
         >
-          Save Changes
-        </button> */}
+          Upload Product
+        </button>
       </form>
     </div>
   );
