@@ -12,11 +12,15 @@ router.post("/register", async (req, res) => {
 
   try {
     // registration logic here
-    const user = new User({ name, email, password });
+    let user = await User.findOne({ email });
+    if (user) return res.status(400).json({ message: "User already exists" });
+    user = new User({ name, email, password });
+    await user.save();
+    // create jwt payload
     
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json("Server error");
   }
 });
 
