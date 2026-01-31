@@ -82,4 +82,17 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// @route   GET /api/users/profile
+// @desc    Get loggedin user profile
+// @access  Private
+router.get("/profile", async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
+
 module.exports = router;
