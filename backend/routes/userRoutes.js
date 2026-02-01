@@ -1,7 +1,7 @@
 const express = require("express");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-
+const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // @route   POST /api/users/register
@@ -85,10 +85,10 @@ router.post("/login", async (req, res) => {
 // @route   GET /api/users/profile
 // @desc    Get loggedin user profile
 // @access  Private
-router.get("/profile", async (req, res) => {
+router.get("/profile",protect, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
-    res.json(user);
+    res.json(req.user);
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
