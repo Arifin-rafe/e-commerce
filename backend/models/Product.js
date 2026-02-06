@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+const { collection } = require('./User');
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     description: {
         type: String,
@@ -12,20 +14,44 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    category: {
-        type: String,
-        required: true            
+    discountPrice: {
+        type: Number,
     },
     countInStock: {
         type: Number,
+        required: true,
+        default: 0
+    },
+    sku: {
+        type: String,
+        unique: true,
         required: true
     },
-    rating: {
-        type: Number,
+    category: {
+        type: String,
         required: true
     },
-    numReviews: {
-        type: Number,
+    brand: {
+        type: String,
+    },
+    size: {
+        type: [ String ],
+        required: true
+    },
+    colors: {
+        type: [ String ],
+        required: true
+    },
+    collection: {
+        type: String,
+        required: true
+    },
+    material: {
+        type: String,
+    },
+    gender: {
+        type: String,
+        enum: ['Man', 'Woman', 'Unisex'],
         required: true
     },
     images: [
@@ -33,17 +59,55 @@ const productSchema = new mongoose.Schema({
             url: {
                 type: String,
                 required: true
+            },
+            altText: {
+                type: String,
             }
         }
     ],
-    createdAt: {
-        type: Date,
-        default: Date.now
+    isFeatured: {
+        type: Boolean,
+        default: false
     },
-    updatedAt: {
-        type: Date,
-        default: Date.now
-    }
+    isPublished: {
+        type: Boolean,
+        default: false
+    },
+    
+    rating: {
+        type: Number,
+        default: 0
+    },
+    numReviews: {
+        type: Number,
+        default: 0
+    },
+    tags: {
+        type: [ String ]
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    metaTitle: {
+        type: String,
+    },
+    metaDescription: {
+        type: String,
+    },
+    metaKeywords: {
+        type: String,
+    },
+    dimensions: {
+        length: Number,
+        width: Number,
+        height: Number,
+    },
+    
+
+    
+ 
 });
 
 module.exports = mongoose.model('Product', productSchema);
