@@ -104,10 +104,9 @@ const productSchema = new mongoose.Schema({
         width: Number,
         height: Number,
     },
-    
-
-    
- 
-});
+    weight: Number,
+}, 
+{timestamps: true}
+);
 
 module.exports = mongoose.model('Product', productSchema);
