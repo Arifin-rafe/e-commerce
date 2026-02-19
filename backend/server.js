@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 });
 //api routes
 app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
+app.use('/api/products', productRoutes); //create product route
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
