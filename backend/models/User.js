@@ -41,7 +41,7 @@ userSchema.pre("save", async function (next) {
   
   const salt = await bycrypt.genSalt(10);
   this.password = await bycrypt.hash(this.password, salt);
-  // next();
+  // next();  // i make it comment
 })
 
 // match user entered password to hashed password in database
