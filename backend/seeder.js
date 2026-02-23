@@ -22,23 +22,23 @@ const seedData = async () => {
             password: '123456',
             role: 'admin'
         });
-        // assign the default user ID to each product
 
+        // assign the default user ID to each product
         const userID = createdUser._id;
 
         const sampleProducts = products.map(product => {
-            return { ...product, userID }
+            return { ...product, user: userID }
         });
 
         // Insert sample products into the database
         await Product.insertMany(sampleProducts);
-        console.log('product Data seeded successfully');
+        console.log('Product Data seeded successfully');
         process.exit();
     } 
+     catch (error) {
+        console.error('Error seeding the data:', error);
+        process.exit(1);
+    }
 };
 
-        // Seed products
-    } catch (error) {
-        console.error('Error clearing existing data:', error);
-    }
-}
+seedData();
