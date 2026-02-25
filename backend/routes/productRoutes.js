@@ -1,13 +1,13 @@
 const express = require("express");
 const Product = require("../models/Product");
-const { protect,admin } = require("../middleware/authMiddleware");
+const { protect, admin } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 // @route   POST /api/products
 // @desc    Create a new product
 // @access  Private
-router.post("/", protect,admin, async (req, res) => {
+router.post("/", protect, admin, async (req, res) => {
   try {
     const {
       name,
@@ -63,8 +63,8 @@ router.post("/", protect,admin, async (req, res) => {
 // @route   GET /api/products/:id
 // @desc    Update a existing product by id
 // @access  Private/Admin
-router.put("/:id", protect,admin, async (req, res) => {
-  try{
+router.put("/:id", protect, admin, async (req, res) => {
+  try {
     const {
       name,
       description,
@@ -87,7 +87,7 @@ router.put("/:id", protect,admin, async (req, res) => {
       sku,
     } = req.body;
     const product = await Product.findById(req.params.id);
-    if(product){
+    if (product) {
       //update fields if provided, otherwise keep existing values
       product.name = name || product.name;
       product.description = description || product.description;
@@ -102,8 +102,10 @@ router.put("/:id", protect,admin, async (req, res) => {
       product.material = material || product.material;
       product.gender = gender || product.gender;
       product.images = images || product.images;
-      product.isFeatured = isFeatured !== undefined ? isFeatured : product.isFeatured;
-      product.isPublished = isPublished !== undefined ? isPublished : product.isPublished;
+      product.isFeatured =
+        isFeatured !== undefined ? isFeatured : product.isFeatured;
+      product.isPublished =
+        isPublished !== undefined ? isPublished : product.isPublished;
       product.tags = tags || product.tags;
       product.dimensions = dimensions || product.dimensions;
       product.weight = weight || product.weight;
@@ -124,13 +126,13 @@ router.put("/:id", protect,admin, async (req, res) => {
 //@route DELETE /api/products/:id
 //@desc Delete a product by id
 //@access Private/Admin
-router.delete("/:id", protect,admin, async (req, res) => {
+router.delete("/:id", protect, admin, async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);    
+    const product = await Product.findById(req.params.id);
     if (product) {
       await product.deleteOne();
       res.json({ message: "Product removed" });
-    }else {
+    } else {
       res.status(404).json({ message: "Product not found" });
     }
   } catch (error) {
@@ -144,19 +146,23 @@ router.delete("/:id", protect,admin, async (req, res) => {
 // @access  Public
 router.get("/", async (req, res) => {
   try {
-    const { category, brand, size, color, collection, material, gender, isFeatured, isPublished } = req.query;
-    let filter = {};
-    if (category) filter.category = category;
-    if (brand) filter.brand = brand;
-    if (size) filter.size = size;
-    if (color) filter.colors = color;
-    if (collection) filter.collection = collection;
-    if (material) filter.material = material;
-    if (gender) filter.gender = gender;
-    if (isFeatured) filter.isFeatured = isFeatured;
-    if (isPublished) filter.isPublished = isPublished;
-    const products = await Product.find(filter);
-    res.json(products);
+    const {
+      collection,
+      size,
+      color,
+      gender,
+      minPrice,
+      maxPrice,
+      sortBy,
+      search,
+      category,
+      material,
+      brand,
+      limit,
+    } = req.query;
+    let query = {};
+    // filter logic
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
