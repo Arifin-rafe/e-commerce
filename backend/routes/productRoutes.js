@@ -139,6 +139,9 @@ router.delete("/:id", protect,admin, async (req, res) => {
   }
 });
 
-
+// @route   GET /api/products/:id
+// @desc    Get a product by id
+// @access  Public
+router.get("/:id", async (req, res) => {
 
 module.exports = router;
