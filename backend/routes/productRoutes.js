@@ -139,9 +139,27 @@ router.delete("/:id", protect,admin, async (req, res) => {
   }
 });
 
-// @route   GET /api/products/:id
-// @desc    Get a product by id
+// @route   GET /api/products
+// @desc    Get all products with optional query filters
 // @access  Public
-router.get("/:id", async (req, res) => {
-
+router.get("/", async (req, res) => {
+  try {
+    const { category, brand, size, color, collection, material, gender, isFeatured, isPublished } = req.query;
+    let filter = {};
+    if (category) filter.category = category;
+    if (brand) filter.brand = brand;
+    if (size) filter.size = size;
+    if (color) filter.colors = color;
+    if (collection) filter.collection = collection;
+    if (material) filter.material = material;
+    if (gender) filter.gender = gender;
+    if (isFeatured) filter.isFeatured = isFeatured;
+    if (isPublished) filter.isPublished = isPublished;
+    const products = await Product.find(filter);
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 module.exports = router;
