@@ -162,7 +162,38 @@ router.get("/", async (req, res) => {
     } = req.query;
     let query = {};
     // filter logic
-    
+    if (collection && collection.toLowerCase() !== "all") {
+      query.collections = collection;
+    }
+    if(category && category.toLowerCase() !== "all") {
+      query.category = category;
+    }
+    if(material) {
+      query.material = {$in: material.split(",")};
+    }
+    if(brand) {
+      query.brand = {$in: brand.split(",")};
+    }
+    if(size) {
+      query.sizes = {$in: size.split(",")};
+    }
+    if(color) {
+      query.colors = {$in: [color]};
+    }
+    if(gender) {
+      query.gender = gender;
+    }
+    if(minPrice || maxPrice) {
+      query.price = {};
+      if(minPrice) query.price.$gte = Number(minPrice);
+      if(maxPrice) query.price.$lte = Number(maxPrice);
+    }
+    if(search){
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ];
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
