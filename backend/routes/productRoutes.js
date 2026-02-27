@@ -165,38 +165,59 @@ router.get("/", async (req, res) => {
     if (collection && collection.toLowerCase() !== "all") {
       query.collections = collection;
     }
-    if(category && category.toLowerCase() !== "all") {
+    if (category && category.toLowerCase() !== "all") {
       query.category = category;
     }
-    if(material) {
-      query.material = {$in: material.split(",")};
+    if (material) {
+      query.material = { $in: material.split(",") };
     }
-    if(brand) {
-      query.brand = {$in: brand.split(",")};
+    if (brand) {
+      query.brand = { $in: brand.split(",") };
     }
-    if(size) {
-      query.sizes = {$in: size.split(",")};
+    if (size) {
+      query.sizes = { $in: size.split(",") };
     }
-    if(color) {
-      query.colors = {$in: [color]};
+    if (color) {
+      query.colors = { $in: [color] };
     }
-    if(gender) {
+    if (gender) {
       query.gender = gender;
     }
-    if(minPrice || maxPrice) {
+    if (minPrice || maxPrice) {
       query.price = {};
-      if(minPrice) query.price.$gte = Number(minPrice);
-      if(maxPrice) query.price.$lte = Number(maxPrice);
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
     }
-    if(search){
+    if (search) {
       query.$or = [
         { name: { $regex: search, $options: "i" } },
         { description: { $regex: search, $options: "i" } },
       ];
     }
+    // sort logic
+    if (sortBy) {
+      switch (sortBy) {
+        case "priceAsc":
+          query.sort = { price: 1 };
+          break;
+        case "priceDesc":
+          query.sort = { price: -1 };
+          break;
+        case "popularity":
+          query.sort = { rating: -1 };
+          break;
+        default:
+          break;
+      }
+    }
+    //Fetch products and apply sorting and limit
+    let products = await Product.find(query)
+      .sort(sort)
+      .limit(Number(limit) || 0);
+    res.json(products);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).send("Server error");
   }
 });
 module.exports = router;
