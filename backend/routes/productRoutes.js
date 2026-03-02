@@ -212,6 +212,7 @@ router.get("/", async (req, res) => {
       }
     }
     //Fetch products and apply sorting and limit
+    // clecking in postman if limit is working or not
     let products = await Product.find(query)
       .sort(sort)
       .limit(Number(limit) || 0);
