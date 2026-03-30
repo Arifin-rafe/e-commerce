@@ -223,4 +223,17 @@ router.get("/", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+// @route   GET /api/products/:id
+// @desc    Get single product by id
+// @access  Public
+
+router.get("/:id", async(req,res)=>{
+  try{
+
+  }catch(error){
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+})
 module.exports = router;
