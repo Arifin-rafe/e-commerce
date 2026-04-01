@@ -241,4 +241,8 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+// @route   GET /api/products/similer/:id
+// @desc    Get similar products based on gender and category
+// @access  Public
 module.exports = router;
