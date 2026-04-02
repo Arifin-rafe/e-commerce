@@ -241,6 +241,13 @@ router.get("/best-seller", async (req, res) => {
   }
 });
 
+// @route   Get /api/products/new-arrival
+// @desc    retrieve new arrival 8 products based on created date
+// @access  Public
+router.get("/new-arrival", async (req, res) => {
+  
+});
+
 // @route   GET /api/products/:id
 // @desc    Get single product by id
 // @access  Public
