@@ -59,7 +59,7 @@ router.post("/", protect, admin, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
+// all are okey
 // @route   GET /api/products/:id
 // @desc    Update a existing product by id
 // @access  Private/Admin
