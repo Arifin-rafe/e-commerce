@@ -18,14 +18,14 @@ const getCart = async (userId, guestId) => {
 // @desc    Add a product to the cart for a guet or logged in user
 // @access  Public
 
-router.post('/', protect, async (req, res) => {
+router.post('/', async (req, res) => {
     const {productId,quantity,size,color,guestId,userId} = req.body;
     try {
         const product = await Product.findById(productId);
         if(!product) return res.status(404).json({ message: "Product not found" });
 
         // Determine if the user is a guest or logged in
-        let cart = await getCart(guestId, userId);
+        let cart = await getCart(userId, guestId);
 
         // if cart exists, update it
         if(cart) {
@@ -54,9 +54,9 @@ router.post('/', protect, async (req, res) => {
         await cart.save();
         res.status(200).json(cart);
         } else {
-            // if cart does not exist, create it
+            // if cart does not exist, create it for a guest or logged in user
             const newCart = await Cart.create({
-                userId: userId ? userId : undefined,
+                user: userId ? userId : undefined,
                 guestId: guestId ? guestId : "guest_" + new Date().getTime(),
                 products: [{
                     productId,
@@ -77,3 +77,5 @@ router.post('/', protect, async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 })
+
+module.exports = router;
