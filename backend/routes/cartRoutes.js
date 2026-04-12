@@ -7,32 +7,32 @@ const router = express.Router();
 
 // Helper function to get the cart for a guest or logged in user
 const getCart = async (userId, guestId) => {
-        if(userId) {
-            return await Cart.findOne({ user: userId });
-        } else if(guestId) {
-            return await Cart.findOne({ guestId });
-        }
-        return null;
+    if (userId) {
+        return await Cart.findOne({ user: userId });
+    } else if (guestId) {
+        return await Cart.findOne({ guestId });
+    }
+    return null;
 }
 // @route   POST /api/cart
 // @desc    Add a product to the cart for a guet or logged in user
 // @access  Public
 
 router.post('/', async (req, res) => {
-    const {productId,quantity,size,color,guestId,userId} = req.body;
+    const { productId, quantity, size, color, guestId, userId } = req.body;
     try {
         const product = await Product.findById(productId);
-        if(!product) return res.status(404).json({ message: "Product not found" });
+        if (!product) return res.status(404).json({ message: "Product not found" });
 
         // Determine if the user is a guest or logged in
         let cart = await getCart(userId, guestId);
 
         // if cart exists, update it
-        if(cart) {
-            const productIndex = cart.products.findIndex((p) => p.productId.toString() === productId && 
-            p.size === size && 
-            p.color === color);
-            if(productIndex > -1) {
+        if (cart) {
+            const productIndex = cart.products.findIndex((p) => p.productId.toString() === productId &&
+                p.size === size &&
+                p.color === color);
+            if (productIndex > -1) {
                 // if product already exists, update the quantity
                 cart.products[productIndex].quantity += quantity;
             } else {
@@ -48,11 +48,11 @@ router.post('/', async (req, res) => {
                 });
             }
             // recalculate the total price
-            cart.totalPrice = cart.products.reduce((acc, item) => acc + item.price * item.quantity, 
-            0
-        );
-        await cart.save();
-        res.status(200).json(cart);
+            cart.totalPrice = cart.products.reduce((acc, item) => acc + item.price * item.quantity,
+                0
+            );
+            await cart.save();
+            res.status(200).json(cart);
         } else {
             // if cart does not exist, create it for a guest or logged in user
             const newCart = await Cart.create({
@@ -76,6 +76,42 @@ router.post('/', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Server error" });
     }
-})
+});
+
+// @route   PUT /api/cart
+// @desc    Update the quantity of a product in the cart for a guest or logged in user
+// @access  Public
+
+router.put('/', async (req, res) => {
+    const { productId, quantity, size, color, guestId, userId } = req.body;
+    try {
+        const cart = await getCart(userId, guestId);
+        if (!cart) return res.status(404).json({ message: "Product not found" });
+        const productIndex = cart.products.findIndex((p) => p.productId.toString() === productId &&
+            p.size === size &&
+            p.color === color);
+        if (productIndex > -1) {
+            // if product already exists, update the quantity
+            if (quantity > 0) {
+                cart.products[productIndex].quantity = quantity;
+            } else {
+                // if quantity is 0, remove the product from the cart
+                cart.products.splice(productIndex, 1);
+            }
+            cart.totalPrice = cart.products.reduce((acc, item) => acc + item.price * item.quantity,
+                0
+            );
+            await cart.save();
+            res.status(200).json(cart);
+        } else {
+            // if product does not exist, add it to the cart
+            return res.status(404).json({ message: "Product not found in cart" });
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
 
 module.exports = router;
