@@ -114,4 +114,6 @@ router.put('/', async (req, res) => {
     }
 });
 
+// done some debugging and found that the cart is not being updated when the quantity is changed
+
 module.exports = router;
