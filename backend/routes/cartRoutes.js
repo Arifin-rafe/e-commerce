@@ -134,15 +134,34 @@ router.delete("/", async (req, res) => {
             );
             await cart.save();
             return res.status(200).json(cart)
-        }else{
-            return res.status(404).json({message:"Product not found in cart"})
+        } else {
+            return res.status(404).json({ message: "Product not found in cart" })
         }
     } catch (error) {
         console.erroe(error)
-        return res.status(500).json({message:"server error"})
+        return res.status(500).json({ message: "server error" })
     }
 })
 
 // @route GET/api/cart
+// @desc Get logged-in uers or guest users cart
+// @access public
+
+router.get("/", async (req, res) => {
+    const { userId, guestId } = req.query // if query parameter give parameter to postman top link like http://localhost:9000/api/cart?
+    try {
+        const cart = await getCart(userId, guestId)
+        if (cart) {
+            res.json(cart);
+        } else {
+            res.status(404).json({message:"Cart not found"})
+        }
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({message:"Server error"})
+    }
+});
+
+// @route POST /api/cart/
 
 module.exports = router;
