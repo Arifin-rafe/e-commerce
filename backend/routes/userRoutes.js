@@ -22,7 +22,7 @@ router.post("/register", async (req, res) => {
     // sign and return token along with user data
     jwt.sign(
       payload,
-      process.env.JWT_SECRET, {expiresIn: "40h" },(err, token) =>{
+      process.env.JWT_SECRET, {expiresIn: "365d" },(err, token) =>{
         if(err) throw err;
 
         // send user and token in respone
@@ -62,7 +62,7 @@ router.post("/login", async (req, res) => {
     // sign and return token along with user data
     jwt.sign(
       payload,
-      process.env.JWT_SECRET, {expiresIn: "40h" },(err, token) =>{
+      process.env.JWT_SECRET, {expiresIn: "365d" },(err, token) =>{
         if(err) throw err;
 
         // send user and token in response
