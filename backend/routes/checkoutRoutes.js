@@ -10,7 +10,7 @@ const router = express.Router();
 // @desc Create a new checkout session
 // @access Private
 router.post("/", protect, async (req, res) => {
-  const { checkoutItems, shippingAddress, paymentMethod } = req.body;
+  const { checkoutItems, shippingAddress, paymentMethod,totalPrice } = req.body;
   if (!checkoutItems || checkoutItems.length === 0) {
     return res.status(400).json({ message: "No item in checkout" });
   }
@@ -26,7 +26,7 @@ router.post("/", protect, async (req, res) => {
       isPaid: false,
     });
     console.log(`checkout created for user: ${req.user._id}`);
-    res.ststus(201).json(newCheckout);
+    res.status(201).json(newCheckout);
   } catch (error) {
     console.error("Error created checkout session", error);
     res.status(500).json({ message: "Server error" });
@@ -90,9 +90,9 @@ router.post("/:id/finalize", protect, async (req, res) => {
       await Cart.findOneAndDelete({ user: checkout.user });
       res.status(201).json(finalOrder);
     } else if (checkout.isFinalized) {
-        res.status(400).json({ message: "Checkout already finalized" });
-    }else{
-        res.status(400).json({ message: "Checkout not paid yet" });
+      res.status(400).json({ message: "Checkout already finalized" });
+    } else {
+      res.status(400).json({ message: "Checkout not paid yet" });
     }
   } catch (error) {
     console.error(error);
