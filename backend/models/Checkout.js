@@ -68,4 +68,4 @@ const checkoutSchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-modules.exports = mongoose.model("Checkout", checkoutSchema);
+module.exports = mongoose.model("Checkout", checkoutSchema);
