@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bycrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema(
   {
@@ -36,18 +36,18 @@ const userSchema = new mongoose.Schema(
 
 // Password hash middlewire
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () { // next parameter removed because of the comment on next() below
+  if (!this.isModified("password")) return; //return next ta change
   
-  const salt = await bycrypt.genSalt(10);
-  this.password = await bycrypt.hash(this.password, salt);
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
   // next();  // i make it comment
 })
 
 // match user entered password to hashed password in database
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bycrypt.compare(enteredPassword, this.password);
+  return await bcrypt.compare(enteredPassword, this.password);
 };
 
 module.exports = mongoose.model("User", userSchema); 
