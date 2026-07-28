@@ -9,6 +9,7 @@ const checkoutRoutes = require('./routes/checkoutRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const uploadRoutes = require('./routes/uploadRoutes');
 const subscribeRoute = require('./routes/subscribeRoute');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 app.use(express.json());
@@ -33,6 +34,9 @@ app.use('/api/checkout', checkoutRoutes); //create checkout route
 app.use('/api/orders', orderRoutes); //create order route
 app.use('/api/upload', uploadRoutes); //create upload route
 app.use('/api', subscribeRoute); //create subscriber route
+
+//Admin routes
+app.use('/api/admin/users', adminRoutes); //create admin route
 
 
 app.listen(PORT, () => {
