@@ -11,7 +11,7 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const subscribeRoute = require('./routes/subscribeRoute');
 const adminRoutes = require('./routes/adminRoutes');
 const productAdminRoutes = require('./routes/productAdminRoutes');
-
+const adminOrderRoutes = require('./routes/adminOrderRoutes');
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -40,7 +40,7 @@ app.use('/api', subscribeRoute); //create subscriber route
 //Admin routes
 app.use('/api/admin/users', adminRoutes); //create admin route
 app.use('/api/admin/products', productAdminRoutes); //create product admin route
-
+app.use('/api/admin/orders', require('./routes/adminOrderRoutes')); //create order admin route
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
