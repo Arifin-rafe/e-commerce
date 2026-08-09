@@ -48,7 +48,6 @@ export const addToCart = createAsyncThunk(
           userId,
           size,
           color,
-          
         },
       );
       return response.data;
@@ -75,7 +74,7 @@ export const updateCartItemQuantity = createAsyncThunk(
           color,
           guestId,
           userId,
-        }
+        },
       );
       return response.data;
     } catch (error) {
@@ -87,3 +86,35 @@ export const updateCartItemQuantity = createAsyncThunk(
 // remove item from cart for a user or guest
 export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
+  async ({ productId, guestId, userId, size, color }, { rejectWithValue }) => {
+    try {
+      const response = await axios({
+        method: "DELETE",
+        url: `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
+        data: {productId, guestId, userId, size, color},
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
+//merge guest cart with user cart
+export const mergeCart = createAsyncThunk("cart/mergeCart", async({guestId,user},{rejectWithValue})
+=>{
+  try {
+    const reponse = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/api/cart/merge`,
+      {guestId, user},
+      {
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem()}`
+        }
+      }
+    );
+  } catch (error) {
+    
+  }
+})
