@@ -105,16 +105,33 @@ export const removeFromCart = createAsyncThunk(
 export const mergeCart = createAsyncThunk("cart/mergeCart", async({guestId,user},{rejectWithValue})
 =>{
   try {
-    const reponse = await axios.post(
+    const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/api/cart/merge`,
       {guestId, user},
       {
         headers:{
-          Authorization: `Bearer ${localStorage.getItem()}`
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
         }
       }
     );
+    return response.data;
   } catch (error) {
-    
+    return rejectWithValue(error.response.data);
+  }
+}
+);
+
+const cartSlice = createSlice({
+  name: "cart",
+  initialState: {
+    cart: loadCartFromLocalStorage(),
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    clearCart: (state) => {
+      state.cart = { products: [] }
+      localStorage.removeItem("cart")
+    }
   }
 })
